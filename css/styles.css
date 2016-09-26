@@ -1,6 +1,10 @@
+a{
+  text-decoration:none;
+  color: blue;
+}
 body {
     font-family: sans-serif;
-    width: 800px;
+    width: 900px;
     margin: 0 auto;
     padding: 10px;
 }
@@ -69,4 +73,27 @@ nav ul li {
 
 nav #user-account {
     float: right;
+}
+#Thee {
+  color: #fff;
+}
+#intro {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-image:url('https://media.giphy.com/media/quEsMOrr3hmQ8/giphy.gif');
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: 100%;
+
+}
+#whatif {
+  height: 50vh;
+  width: 100%;
+  overflow: hidden;
+  background-image:url('../css/morph.jpg');
+  background-size: 100%;
 }

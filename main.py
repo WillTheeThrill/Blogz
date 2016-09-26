@@ -19,9 +19,11 @@ class BlogHandler(webapp2.RequestHandler):
             Get all posts by a specific user, ordered by creation date (descending).
             The user parameter will be a User object.
         """
+        q = db.Query(Post)
 
         # TODO - filter the query so that only posts by the given user
-        return None
+        query = q.filter('author = ',user)
+        return query.fetch(limit=limit, offset=offset)
 
     def get_user_by_name(self, username):
         """ Get a user object from the db, based on their username """
@@ -260,7 +262,7 @@ class LoginHandler(BlogHandler):
 
     # TODO - The login code here is mostly set up for you, but there isn't a template to log in
 
-    def render_login_form(self, error=""):
+    def render_login_form(self, error={}):
         """ Render the login form with or without an error, based on parameters """
         t = jinja_env.get_template("login.html")
         response = t.render(error=error)
@@ -270,14 +272,17 @@ class LoginHandler(BlogHandler):
         self.render_login_form()
 
     def post(self):
+        error = {}
         submitted_username = self.request.get("username")
         submitted_password = self.request.get("password")
 
         # get the user from the database
         user = self.get_user_by_name(submitted_username)
-
+        if submitted_password == "":
+            error['password']="What if I told you that your password isn't valid?"
         if not user:
-            self.render_login_form(error="Invalid username")
+            error['username']="What if I told you that your username isn't valid?"
+            self.render_login_form(error=error)
         elif hashutils.valid_pw(submitted_username, submitted_password, user.pw_hash):
             self.login_user(user)
             self.redirect('/blog/newpost')
